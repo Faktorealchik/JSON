@@ -2,7 +2,7 @@
 
 first: download
 
-second: use assembly.bat
+second: create schema "SystemTranslating" in MySql workbench with login and password root
 
 third: use start.bat
 
