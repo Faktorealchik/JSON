@@ -11,7 +11,7 @@ public class LessonsService {
         this.dbService = dbService;
     }
 
-    public long addNewUser(long id, String steps, String update_date, long other) throws DBException {
+    public long addLesson(long id, String steps, String update_date, long other) throws DBException {
         return dbService.addUser(id, steps, update_date, other);
     }
 
@@ -19,7 +19,7 @@ public class LessonsService {
         return dbService.getUser(id);
     }
 
-    public void updateUser(long id, String steps, String update_date, long other) throws DBException {
+    public void updateLesson(long id, String steps, String update_date, long other) throws DBException {
         dbService.updateUser(id, steps, update_date, other);
     }
 }

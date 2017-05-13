@@ -92,7 +92,7 @@ public class AnswerServlet extends HttpServlet implements Runnable {
         String sb = parseUrl(url);
         if (sb.isEmpty()) {
             print("Sorry, no access/not found");
-            lessonsService.addNewUser(id, null, null, 0);
+            lessonsService.addLesson(id, null, null, 0);
             return;
         }
         jsonReader(sb);
@@ -118,7 +118,7 @@ public class AnswerServlet extends HttpServlet implements Runnable {
                 long id = lessonsDataSet.getId();
                 String step = lessonsDataSet.getSteps();
                 String update_date = lessonsDataSet.getUpdate_date();
-                lessonsService.updateUser(id, step, update_date, new Date().getTime());
+                lessonsService.updateLesson(id, step, update_date, new Date().getTime());
                 jsonObject1.put("id", id);
                 jsonObject1.put("steps", step);
                 jsonObject1.put("update_date", update_date);
@@ -128,7 +128,7 @@ public class AnswerServlet extends HttpServlet implements Runnable {
                 long id = (long) one.get("id");
                 String step = arr.toJSONString();
                 String update_date = one.get("update_date").toString();
-                lessonsService.addNewUser(id, step, update_date, new Date().getTime());
+                lessonsService.addLesson(id, step, update_date, new Date().getTime());
                 jsonObject1.put("id", id);
                 jsonObject1.put("steps", arr);
                 jsonObject1.put("update_date", update_date);

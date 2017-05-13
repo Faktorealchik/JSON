@@ -59,7 +59,7 @@ public class DBService {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.beginTransaction();
             LessonsDAO dao = new LessonsDAO(session);
-            dao.insertUser(id, steps, update_date, other);
+            dao.insertLesson(id, steps, update_date, other);
             transaction.commit();
             session.close();
             return id;
@@ -74,7 +74,7 @@ public class DBService {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.beginTransaction();
             LessonsDAO dao = new LessonsDAO(session);
-            dao.updateUser(id, steps, update_date, other);
+            dao.updateLesson(id, steps, update_date, other);
             transaction.commit();
             session.close();
         } catch (HibernateException e) {

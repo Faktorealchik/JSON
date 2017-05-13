@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "users")
+@Table(name = "lessons")
 public class LessonsDataSet implements Serializable { // Serializable Important to Hibernate!
     private static final long serialVersionUID = -8706689714326132798L;
 

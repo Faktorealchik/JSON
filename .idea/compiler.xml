@@ -6,12 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="L2.1" />
         <module name="SystemTranslating" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="L2.1" target="1.8" />
       <module name="SystemTranslating" target="1.8" />
     </bytecodeTargetLevel>
   </component>
