@@ -3,36 +3,36 @@ package dbService.dataSets;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "lessons")
-public class LessonsDataSet implements Serializable { // Serializable Important to Hibernate!
-    private static final long serialVersionUID = -8706689714326132798L;
+        @Entity
+        @Table(name = "lessons")
+        public class LessonsDataSet implements Serializable { // Serializable Important to Hibernate!
+            private static final long serialVersionUID = -8706689714326132798L;
 
-    @Id
-    @Column(name = "id")
+            @Id
+            @Column(name = "id")
 //    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+            private long id;
 
-    @Column(name = "steps")
-    private String steps;
+            @Column(name = "steps")
+            private String steps;
 
-    @Column(name = "update_date")
-    private String update_date;
+            @Column(name = "update_date")
+            private String update_date;
 
 
-    @Column(name = "other")
-    private long other;
+            @Column(name = "other")
+            private long other;
 
-    //Important to Hibernate!
-    @SuppressWarnings("UnusedDeclaration")
-    public LessonsDataSet() {
-    }
+            //Important to Hibernate!
+            @SuppressWarnings("UnusedDeclaration")
+            public LessonsDataSet() {
+            }
 
-    @SuppressWarnings("UnusedDeclaration")
-    public LessonsDataSet(long id, String steps, String update_date, long other) {
-        this.setId(id);
-        this.setSteps(steps);
-        this.setUpdate_date(update_date);
+            @SuppressWarnings("UnusedDeclaration")
+            public LessonsDataSet(long id, String steps, String update_date, long other) {
+                this.setId(id);
+                this.setSteps(steps);
+                this.setUpdate_date(update_date);
         this.setOther(other);
     }
 

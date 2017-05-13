@@ -1,6 +1,6 @@
 package servlets;
 
-import lesson.LessonsService;
+import dbService.DBService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -12,11 +12,11 @@ import java.io.IOException;
 import java.util.*;
 
 public class ListenServlet extends HttpServlet {
-    private final LessonsService lessonsService;
+    private final DBService dbService;
     private static final Logger logger = LogManager.getLogger(ListenServlet.class.getName());
 
-    public ListenServlet(LessonsService lessonsService) {
-        this.lessonsService = lessonsService;
+    public ListenServlet(DBService dbService) {
+        this.dbService = dbService;
     }
 
     @Override
@@ -24,12 +24,14 @@ public class ListenServlet extends HttpServlet {
         String[] lessons = req.getParameter("lessons").trim().split(" ");
         logger.info("lessons: " + Arrays.toString(lessons));
 
+        //упорядоченный сет уроков
         Set<Integer> setOfLessons = new TreeSet<>();
         try {
             for (String id : lessons) {
                 setOfLessons.add(Integer.parseInt(id));
             }
-            Thread thread = new Thread(new AnswerServlet(lessonsService, resp, setOfLessons));
+            //каждый запрос в новом потоке
+            Thread thread = new Thread(new AnswerServlet(dbService, resp, setOfLessons));
             thread.run();
             thread.join();
         } catch (NumberFormatException | InterruptedException e) {

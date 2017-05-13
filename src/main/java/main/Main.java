@@ -21,6 +21,7 @@ public class Main {
         DBService dbService = new DBService();
         LessonsService lessonsService = new LessonsService(dbService);
         logger.info(dbService.printConnectInfo());
+
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(new ListenServlet(lessonsService)), "/*");
 

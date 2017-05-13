@@ -41,20 +41,20 @@ public class DBService {
         return configuration;
     }
 
-    public LessonsDataSet getUser(long id) throws DBException {
-        try {
-            Session session = sessionFactory.openSession();
-            LessonsDAO dao = new LessonsDAO(session);
-            LessonsDataSet dataSet = dao.get(id);
-            session.close();
-            return dataSet;
-        } catch (HibernateException e) {
-            logger.error(e.getMessage());
-            throw new DBException(e);
+    public LessonsDataSet getLesson(long id) throws DBException {
+                try {
+                    Session session = sessionFactory.openSession();
+                    LessonsDAO dao = new LessonsDAO(session);
+                    LessonsDataSet dataSet = dao.get(id);
+                    session.close();
+                    return dataSet;
+                } catch (HibernateException e) {
+                    logger.error(e.getMessage());
+                    throw new DBException(e);
         }
     }
 
-    public synchronized long addUser(long id, String steps, String update_date, long other) throws DBException {
+    public long addLesson(long id, String steps, String update_date, long other) throws DBException {
         try {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.beginTransaction();
@@ -69,7 +69,7 @@ public class DBService {
         }
     }
 
-    public void updateUser(long id, String steps, String update_date, long other) throws DBException {
+    public void updateLesson(long id, String steps, String update_date, long other) throws DBException {
         try {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.beginTransaction();

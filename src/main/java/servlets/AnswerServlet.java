@@ -1,6 +1,6 @@
 package servlets;
 
-import lesson.LessonsService;
+import dbService.DBService;
 import dbService.DBException;
 import dbService.dataSets.LessonsDataSet;
 import org.apache.logging.log4j.LogManager;
@@ -22,14 +22,14 @@ import java.util.*;
 public class AnswerServlet extends HttpServlet implements Runnable {
 
     private final HttpServletResponse resp;
-    private final LessonsService lessonsService;
+    private final DBService dbService;
     private boolean isExist = false;
     private LessonsDataSet lessonsDataSet;
     private Set<Integer> lessons;
     private static final Logger logger = LogManager.getLogger(AnswerServlet.class.getName());
 
-    public AnswerServlet(LessonsService lessonsService, HttpServletResponse resp, Set<Integer> lessons) {
-        this.lessonsService = lessonsService;
+    public AnswerServlet(DBService dbService, HttpServletResponse resp, Set<Integer> lessons) {
+        this.dbService = dbService;
         this.resp = resp;
         this.lessons = lessons;
     }
@@ -49,8 +49,11 @@ public class AnswerServlet extends HttpServlet implements Runnable {
                 print("<br> answer for id: " + i + "<br><br>");
 
                 Date date = new Date();
-                lessonsDataSet = lessonsService.get(i);
+                //получаем урок по id, если есть
+                lessonsDataSet = dbService.getLesson(i);
+                //если такой есть
                 if (lessonsDataSet != null) {
+                    //если страницы нет, выходим и говорим что такой нет
                     if (lessonsDataSet.getUpdate_date() == null) {
                         print("Sorry, no access/not found");
                         print("<br>" + (double) (new Date().getTime() - date.getTime()) / 1000 + "s");
@@ -58,6 +61,7 @@ public class AnswerServlet extends HttpServlet implements Runnable {
                         date = new Date();
                         resp.flushBuffer();
                         continue;
+                        //иначе если прошло меньше суток с последнего обновления, то выставляем кешированное значение
                     } else if (new Date().getTime() - lessonsDataSet.getOther() < 86400000) {//86400000 -- сутки
 
                         print(lessonsDataSet.toString());
@@ -69,7 +73,7 @@ public class AnswerServlet extends HttpServlet implements Runnable {
                     }
                     isExist = true;
                 } else isExist = false;
-
+                //выводим и сохраняем в бд значения по ид
                 initial(i);
                 print("<br>" + (double) (new Date().getTime() - date.getTime()) / 1000 + "s");
                 print("<br>--------------------------------------------------------------------------------");
@@ -92,11 +96,11 @@ public class AnswerServlet extends HttpServlet implements Runnable {
         String sb = parseUrl(url);
         if (sb.isEmpty()) {
             print("Sorry, no access/not found");
-            lessonsService.addLesson(id, null, null, 0);
+            dbService.addLesson(id, null, null, 0);
             return;
         }
         jsonReader(sb);
-//        print(sb);
+
     }
 
 
@@ -106,10 +110,7 @@ public class AnswerServlet extends HttpServlet implements Runnable {
         JSONArray steps = (JSONArray) jsonObject.get("lessons");
         JSONObject one = (JSONObject) steps.get(0);
         JSONArray arr = (JSONArray) one.get("steps");
-//        print("id: "+one.get("id"));
-//        print("<br><br>steps:");
-//        print(arr);
-//        print("<br><br>update date: "+one.get("update_date"));
+
 
         JSONObject jsonObject1 = new JSONObject();
         try {
@@ -118,22 +119,21 @@ public class AnswerServlet extends HttpServlet implements Runnable {
                 long id = lessonsDataSet.getId();
                 String step = lessonsDataSet.getSteps();
                 String update_date = lessonsDataSet.getUpdate_date();
-                lessonsService.updateLesson(id, step, update_date, new Date().getTime());
+                dbService.updateLesson(id, step, update_date, new Date().getTime());
                 jsonObject1.put("id", id);
                 jsonObject1.put("steps", step);
                 jsonObject1.put("update_date", update_date);
-//            jsonObject1.put("other", new Date().getTime());
+
 
             } else {
                 long id = (long) one.get("id");
                 String step = arr.toJSONString();
                 String update_date = one.get("update_date").toString();
-                lessonsService.addLesson(id, step, update_date, new Date().getTime());
+                dbService.addLesson(id, step, update_date, new Date().getTime());
                 jsonObject1.put("id", id);
                 jsonObject1.put("steps", arr);
                 jsonObject1.put("update_date", update_date);
-//            jsonObject1.put("other", new Date().getTime());
-//            jsonObject1.put("other",sb);
+
             }
         }
         catch (DBException e){logger.error("DBException: "+e.toString()+" "+e.getMessage());}
