@@ -1,9 +1,7 @@
 dbService\DBException.class
 servlets\AnswerServlet.class
 dbService\dao\LessonsDAO.class
-lesson\LessonsService.class
 dbService\DBService.class
-lesson\Lessons.class
 servlets\ListenServlet.class
 dbService\dataSets\LessonsDataSet.class
 main\Main.class

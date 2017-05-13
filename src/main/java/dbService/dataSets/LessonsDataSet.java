@@ -10,7 +10,6 @@ import java.io.Serializable;
 
             @Id
             @Column(name = "id")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
             private long id;
 
             @Column(name = "steps")

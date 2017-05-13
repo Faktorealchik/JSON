@@ -54,7 +54,7 @@ public class DBService {
         }
     }
 
-    public long addLesson(long id, String steps, String update_date, long other) throws DBException {
+    public void addLesson(long id, String steps, String update_date, long other) throws DBException {
         try {
             Session session = sessionFactory.openSession();
             Transaction transaction = session.beginTransaction();
@@ -62,7 +62,6 @@ public class DBService {
             dao.insertLesson(id, steps, update_date, other);
             transaction.commit();
             session.close();
-            return id;
         } catch (HibernateException e) {
             logger.error(e.getMessage());
             throw new DBException(e);
