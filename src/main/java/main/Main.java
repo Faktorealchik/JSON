@@ -1,6 +1,5 @@
 package main;
 
-import lesson.LessonsService;
 import dbService.DBService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,11 +18,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         DBService dbService = new DBService();
-        LessonsService lessonsService = new LessonsService(dbService);
         logger.info(dbService.printConnectInfo());
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        context.addServlet(new ServletHolder(new ListenServlet(lessonsService)), "/*");
+        context.addServlet(new ServletHolder(new ListenServlet(dbService)), "/*");
 
         ResourceHandler resource_handler = new ResourceHandler();
         resource_handler.setResourceBase("public_html");
